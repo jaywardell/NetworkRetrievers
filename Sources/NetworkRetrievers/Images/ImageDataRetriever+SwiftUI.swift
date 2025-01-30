@@ -1,5 +1,5 @@
 //
-//  CachingImageRetriever+SwiftUI.swift
+//  ImageDataRetriever+SwiftUI.swift
 //  NetworkImage Tests
 //
 //  Created by Joseph Wardell on 12/17/24.
