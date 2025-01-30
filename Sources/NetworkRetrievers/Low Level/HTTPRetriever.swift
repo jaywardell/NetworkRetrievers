@@ -9,7 +9,7 @@ import Foundation
 
 public enum HTTPRetriever {
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case NotAnHTTPURL(request: URLRequest)
         case NoData(request: URLRequest)
         case NoHTTPResponse(request: URLRequest)
@@ -45,7 +45,7 @@ public enum HTTPRetriever {
 }
 
 extension HTTPRetriever.Error: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
             
         case .NotAnHTTPURL(let request):

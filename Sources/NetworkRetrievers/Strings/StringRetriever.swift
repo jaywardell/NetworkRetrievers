@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum StringRetriever {
+public enum StringRetriever {
     
-    enum Error: Swift.Error, LocalizedError {
+    public enum Error: Swift.Error, LocalizedError {
         case Decoding(url: URL)
         
-        var errorDescription: String? {
+        public var errorDescription: String? {
             switch self {
             case .Decoding(let url): "Could not load a String from the Data retrived from \(url)"
             }

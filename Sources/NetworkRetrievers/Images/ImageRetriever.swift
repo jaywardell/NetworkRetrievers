@@ -17,7 +17,7 @@ public enum ImageRetriever: ImageDataRetriever {
     
     case shared
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case NoMimeType(url: URL)
         case UnknownMimeType(url: URL)
         case NotAnImage(url: URL)
@@ -53,7 +53,7 @@ public enum ImageRetriever: ImageDataRetriever {
 }
 
 extension ImageRetriever.Error: LocalizedError {
-    var errorDescription: String? {
+    public var errorDescription: String? {
         switch self {
         
         case .NoMimeType(let url):

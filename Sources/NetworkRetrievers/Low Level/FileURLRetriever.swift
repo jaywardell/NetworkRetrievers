@@ -9,7 +9,7 @@ import Foundation
 
 public enum FileURLRetriever {
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case NotAFIleURL(url: URL)
     }
     
