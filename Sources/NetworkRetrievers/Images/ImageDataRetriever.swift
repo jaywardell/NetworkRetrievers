@@ -12,7 +12,7 @@ import AppKit
 import UIKit
 #endif
 
-public protocol ImageDataRetriever {
+public protocol ImageDataRetriever: Sendable {
     
     func retrieveImageData(
         from url: URL,

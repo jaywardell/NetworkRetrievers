@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum StringRetriever {
+public enum StringRetriever: Sendable {
     
     public enum Error: Swift.Error, LocalizedError {
         case Decoding(url: URL)

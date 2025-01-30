@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HTTPRetriever {
+public enum HTTPRetriever: Sendable {
     
     public enum Error: Swift.Error {
         case NotAnHTTPURL(request: URLRequest)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum FileURLRetriever {
+public enum FileURLRetriever: Sendable {
     
     public enum Error: Swift.Error {
         case NotAFIleURL(url: URL)
