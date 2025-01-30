@@ -21,7 +21,7 @@ public protocol ImageDataRetriever {
     ) async throws -> Data
 }
 
-extension ImageDataRetriever {
+public extension ImageDataRetriever {
     func retrieveImageData(
         from url: URL,
         configuration: URLSessionConfiguration
