@@ -23,7 +23,18 @@ public enum ImageRetriever: ImageDataRetriever {
         case NotAnImage(url: URL)
     }
     
-    public func retrieveImageData(from url: URL, headers: [String: String]?, configuration: URLSessionConfiguration) async throws -> Data {
+    
+    /// retieve an image from the URL passed in
+    /// - Parameters:
+    ///   - url: the url from which to retrieve the image
+    ///   - headers: http headers that can be passed to the server (may be unused if the URL is not a http URL)
+    ///   - configuration: `URLSessionConfiguration` that can be used in netwrok calls (may be unused if the URL is not a http URL)
+    /// - Returns: `Data` that is expected to represent an image
+    public func retrieveImageData(
+        from url: URL,
+        headers: [String: String]? = nil,
+        configuration: URLSessionConfiguration = .default
+    ) async throws -> Data {
         do {
             let (data, response) = try await HTTPRetriever.retrieve(url, headers: headers, configuration: configuration)
             guard let mimetype = response.mimeType else { throw Error.NoMimeType(url: url) }
