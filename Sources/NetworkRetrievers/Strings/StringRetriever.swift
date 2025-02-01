@@ -14,7 +14,7 @@ public enum StringRetriever: Sendable {
         
         public var errorDescription: String? {
             switch self {
-            case .Decoding(let url): "Could not load a String from the Data retrived from \(url)"
+            case .Decoding(let url): "Could not create a string from the Data retrived from \(url)"
             }
         }
     }
