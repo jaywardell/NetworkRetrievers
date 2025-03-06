@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UniformTypeIdentifiers
 #if canImport(AppKit)
 import AppKit
 #elseif canImport(UIKit)
@@ -18,27 +19,27 @@ public protocol ImageDataRetriever: Sendable {
         from url: URL,
         headers: [String: String]?,
         configuration: URLSessionConfiguration
-    ) async throws -> Data
+    ) async throws -> (Data, UTType)
 }
 
 public extension ImageDataRetriever {
     func retrieveImageData(
         from url: URL,
         configuration: URLSessionConfiguration
-    ) async throws -> Data {
+    ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: nil, configuration: configuration)
     }
     
     func retrieveImageData(
         from url: URL,
         headers: [String: String]?
-    ) async throws -> Data {
+    ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: headers, configuration: .default)
     }
     
     func retrieveImageData(
         from url: URL
-    ) async throws -> Data {
+    ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: nil, configuration: .default)
     }
 }
@@ -79,7 +80,7 @@ extension ImageDataRetriever {
 
     public func retrieveImage(from url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> NSImage {
         
-        let data = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
+        let (data, _) = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
 
         return try buildImage(from: data)
     }

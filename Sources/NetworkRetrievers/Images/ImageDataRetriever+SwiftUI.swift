@@ -11,7 +11,7 @@ import SwiftUI
 public extension ImageDataRetriever {
     func retrieveSwiftUI_Image(from url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> Image {
         
-        let retrieved = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
+        let (retrieved, _) = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
         
         let image = try ImageRetriever.shared.buildImage(from: retrieved)
         
@@ -24,7 +24,7 @@ public extension ImageDataRetriever {
     
     func retrieveCGimage(from url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> CGImage {
         
-        let retrieved = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
+        let (retrieved, _) = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
         
         return try ImageRetriever.shared.buildCGImage(from: retrieved)
     }

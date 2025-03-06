@@ -34,20 +34,26 @@ public actor ImageRetriever: ImageDataRetriever {
         from url: URL,
         headers: [String: String]? = nil,
         configuration: URLSessionConfiguration = .default
-    ) async throws -> Data {
+    ) async throws -> (Data, UTType) {
         do {
             let (data, response) = try await HTTPRetriever.retrieve(url, headers: headers, configuration: configuration)
             guard let mimetype = response.mimeType else { throw Error.NoMimeType(url: url) }
             guard let type = UTType(mimeType: mimetype) else { throw Error.UnknownMimeType(url: url) }
             guard type.supertypes.contains(.image) else { throw Error.NotAnImage(url: url) }
             
-            return data
+            return (data, type)
         }
         catch HTTPRetriever.Error.NotAnHTTPURL {
             // NOTE: there's no guarantee here that the data passed back is in an image format
             // but that's okay since client code will do the necessary checks
             let data = try await FileURLRetriever.retrieve(url)
-            return data
+            guard let type = (try? url.resourceValues(forKeys: [.contentTypeKey]))?.contentType else {
+                throw Error.UnknownMimeType(url: url)
+            }
+            guard type.supertypes.contains(.image) else {
+                throw Error.NotAnImage(url: url)
+            }
+            return (data, type)
         }
     }
 }
