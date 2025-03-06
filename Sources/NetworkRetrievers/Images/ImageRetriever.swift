@@ -18,9 +18,9 @@ public actor ImageRetriever: ImageDataRetriever {
     public static let shared: ImageRetriever = ImageRetriever()
     
     enum Error: Swift.Error {
-        case NoMimeType(url: URL)
-        case UnknownMimeType(url: URL)
-        case NotAnImage(url: URL)
+        case NoMimeType(url: URLRepresentable)
+        case UnknownMimeType(url: URLRepresentable)
+        case NotAnImage(url: URLRepresentable)
     }
     
     
@@ -31,7 +31,7 @@ public actor ImageRetriever: ImageDataRetriever {
     ///   - configuration: `URLSessionConfiguration` that can be used in netwrok calls (may be unused if the URL is not a http URL)
     /// - Returns: `Data` that is expected to represent an image
     public func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]? = nil,
         configuration: URLSessionConfiguration = .default
     ) async throws -> (Data, UTType) {
@@ -47,7 +47,7 @@ public actor ImageRetriever: ImageDataRetriever {
             // NOTE: there's no guarantee here that the data passed back is in an image format
             // but that's okay since client code will do the necessary checks
             let data = try await FileURLRetriever.retrieve(url)
-            guard let type = (try? url.resourceValues(forKeys: [.contentTypeKey]))?.contentType else {
+            guard let type = (try? url.representedURL?.resourceValues(forKeys: [.contentTypeKey]))?.contentType else {
                 throw Error.UnknownMimeType(url: url)
             }
             guard type.supertypes.contains(.image) else {

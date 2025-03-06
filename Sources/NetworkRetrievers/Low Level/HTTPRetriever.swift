@@ -10,6 +10,7 @@ import Foundation
 public enum HTTPRetriever {
     
     public enum Error: Swift.Error {
+        case NotAnURL(URLRepresentable)
         case NotAnHTTPURL(request: URLRequest)
         case NoData(request: URLRequest)
         case NoHTTPResponse(request: URLRequest)
@@ -35,7 +36,8 @@ public enum HTTPRetriever {
     }
 
     /// syntactical sugar for the retrieve method that takes an URL
-    public static func retrieve(_ url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws-> (Data, HTTPURLResponse) {
+    public static func retrieve(_ url: URLRepresentable, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws-> (Data, HTTPURLResponse) {
+        guard let url = url.representedURL else { throw Error.NotAnURL(url) }
         var request = URLRequest(url: url)
         headers?.compactMapValues { $0 }.forEach {
             request.setValue($1, forHTTPHeaderField: $0)
@@ -48,6 +50,7 @@ extension HTTPRetriever.Error: LocalizedError {
     public var errorDescription: String? {
         switch self {
             
+        case .NotAnURL(let represented): "The value passed in (\(represented)) is not an URL"
         case .NotAnHTTPURL(let request):
             "URL is not an HTTP URL: \(request.url?.absoluteString ?? "no URL")"
         case .NoData(let request):

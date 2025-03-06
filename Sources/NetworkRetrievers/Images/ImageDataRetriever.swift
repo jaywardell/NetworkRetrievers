@@ -16,7 +16,7 @@ import UIKit
 public protocol ImageDataRetriever: Sendable {
     
     func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]?,
         configuration: URLSessionConfiguration
     ) async throws -> (Data, UTType)
@@ -24,41 +24,41 @@ public protocol ImageDataRetriever: Sendable {
 
 public extension ImageDataRetriever {
     func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         configuration: URLSessionConfiguration
     ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: nil, configuration: configuration)
     }
     
     func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]?
     ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: headers, configuration: .default)
     }
     
     func retrieveImageData(
-        from url: URL
+        from url: URLRepresentable
     ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: nil, configuration: .default)
     }
     
     func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         configuration: URLSessionConfiguration
     ) async throws -> Data {
         try await retrieveImageData(from: url, headers: nil, configuration: configuration).0
     }
     
     func retrieveImageData(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]?
     ) async throws -> Data {
         try await retrieveImageData(from: url, headers: headers, configuration: .default).0
     }
     
     func retrieveImageData(
-        from url: URL
+        from url: URLRepresentable
     ) async throws -> Data {
         try await retrieveImageData(from: url, headers: nil, configuration: .default).0
     }
@@ -114,7 +114,7 @@ extension ImageDataRetriever {
         return imageRep
     }
     
-    public func retrieveImage(from url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> UIImage {
+    public func retrieveImage(from url: URLRepresentable, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> UIImage {
         
         let (data, _) = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
 

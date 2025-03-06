@@ -10,11 +10,13 @@ import Foundation
 public enum FileURLRetriever: Sendable {
     
     public enum Error: Swift.Error {
-        case NotAFIleURL(url: URL)
+        case NotAnURL(URLRepresentable)
+        case NotAFIleURL(URLRepresentable)
     }
     
-    public static func retrieve(_ url: URL) async throws -> Data {
-        guard ["file"].contains(url.scheme) else { throw Error.NotAFIleURL(url: url) }
+    public static func retrieve(_ url: URLRepresentable) async throws -> Data {
+        guard let url = url.representedURL else { throw Error.NotAnURL(url) }
+        guard ["file"].contains(url.scheme) else { throw Error.NotAFIleURL(url) }
         
         return try Data(contentsOf: url)
     }

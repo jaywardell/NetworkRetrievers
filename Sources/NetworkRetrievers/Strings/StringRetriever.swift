@@ -10,7 +10,7 @@ import Foundation
 public enum StringRetriever: Sendable {
     
     public enum Error: Swift.Error, LocalizedError {
-        case Decoding(url: URL)
+        case Decoding(url: URLRepresentable)
         
         public var errorDescription: String? {
             switch self {
@@ -21,7 +21,7 @@ public enum StringRetriever: Sendable {
     
     /// use URLSession to retrieve an html string from the given URL
     public static func retrieveString(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]? = nil,
         configuration: URLSessionConfiguration = .default
     ) async throws -> String {

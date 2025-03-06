@@ -20,7 +20,7 @@ public actor JSONRetriever {
     ///   - configuration: `URLSessionConfiguration` that can be used in netwrok calls (may be unused if the URL is not a http URL)
     /// - Returns: `Data` that is expected to represent an image
     public func retrieveJSON<D: Decodable>(
-        from url: URL,
+        from url: URLRepresentable,
         headers: [String: String]? = nil,
         configuration: URLSessionConfiguration = .default
     ) async throws -> D {
