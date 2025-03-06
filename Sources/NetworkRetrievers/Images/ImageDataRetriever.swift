@@ -42,6 +42,27 @@ public extension ImageDataRetriever {
     ) async throws -> (Data, UTType) {
         try await retrieveImageData(from: url, headers: nil, configuration: .default)
     }
+    
+    func retrieveImageData(
+        from url: URL,
+        configuration: URLSessionConfiguration
+    ) async throws -> Data {
+        try await retrieveImageData(from: url, headers: nil, configuration: configuration).0
+    }
+    
+    func retrieveImageData(
+        from url: URL,
+        headers: [String: String]?
+    ) async throws -> Data {
+        try await retrieveImageData(from: url, headers: headers, configuration: .default).0
+    }
+    
+    func retrieveImageData(
+        from url: URL
+    ) async throws -> Data {
+        try await retrieveImageData(from: url, headers: nil, configuration: .default).0
+    }
+
 }
 
 enum ImageDataRetrieverError: Swift.Error, LocalizedError {
