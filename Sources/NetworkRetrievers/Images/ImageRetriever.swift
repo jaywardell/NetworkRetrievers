@@ -13,11 +13,11 @@ import UIKit
 #endif
 import UniformTypeIdentifiers
 
-public enum ImageRetriever: ImageDataRetriever {
+public actor ImageRetriever: ImageDataRetriever {
     
-    case shared
+    public static let shared: ImageRetriever = ImageRetriever()
     
-    public enum Error: Swift.Error {
+    enum Error: Swift.Error {
         case NoMimeType(url: URL)
         case UnknownMimeType(url: URL)
         case NotAnImage(url: URL)
