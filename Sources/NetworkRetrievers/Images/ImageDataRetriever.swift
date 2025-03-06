@@ -116,7 +116,7 @@ extension ImageDataRetriever {
     
     public func retrieveImage(from url: URL, headers: [String: String]? = nil, configuration: URLSessionConfiguration = .default) async throws -> UIImage {
         
-        let data = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
+        let (data, _) = try await retrieveImageData(from: url, headers: headers, configuration: configuration)
 
         return try buildImage(from: data)
     }
